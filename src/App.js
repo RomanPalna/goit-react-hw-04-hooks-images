@@ -18,25 +18,27 @@ export default function App() {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    return () => {
-      setIsLoading('true');
-      imageApi
-        .fetchImages(query, page)
-        .then(img => {
-          setImages([...images, ...img.hits]);
-          setPage(page);
-        })
-        .catch(error => {
-          throw new Error(error);
-        })
-        .finally(
-          setIsLoading(false),
-          window.scrollTo({
-            top: document.documentElement.scrollHeight,
-            behavior: 'smooth',
-          }),
-        );
-    };
+    if (!query) {
+      return;
+    }
+
+    setIsLoading('true');
+    imageApi
+      .fetchImages(query, page)
+      .then(img => {
+        setImages(prevImages => [...prevImages, ...img.hits]);
+        setPage(page);
+      })
+      .catch(error => {
+        throw new Error(error);
+      })
+      .finally(
+        window.scrollTo({
+          top: document.documentElement.scrollHeight,
+          behavior: 'smooth',
+        }),
+        setIsLoading(false),
+      );
   }, [page, query]);
 
   const onSearch = query => {
