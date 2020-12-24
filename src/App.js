@@ -1,13 +1,13 @@
-import { Component } from 'react';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import './App.css';
-import Button from './components/Button/Button';
-import imageApi from './components/services/ImageApi';
-import Searchbar from './components/Searchbar/Searchbar';
-import ImageGalerry from './components/ImageGallery/ImageGallery';
-import Modal from './components/Modal/Modal';
-import LoaderSpin from './components/Loader/Loader';
+import { Component } from "react";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import "./App.css";
+import Button from "./components/Button/Button";
+import imageApi from "./components/services/ImageApi";
+import Searchbar from "./components/Searchbar/Searchbar";
+import ImageGalerry from "./components/ImageGallery/ImageGallery";
+import Modal from "./components/Modal/Modal";
+import LoaderSpin from "./components/Loader/Loader";
 
 class App extends Component {
   state = {
@@ -29,7 +29,7 @@ class App extends Component {
     }
   }
 
-  onSearch = query => {
+  onSearch = (query) => {
     this.setState({ query, images: [], page: 1 });
   };
 
@@ -38,29 +38,29 @@ class App extends Component {
     this.setState({ isLoading: true });
     imageApi
       .fetchImages(query, page)
-      .then(img =>
+      .then((img) =>
         this.setState({
           images: [...images, ...img.hits],
           page: page,
-        }),
+        })
       )
-      .catch(error => {
+      .catch((error) => {
         throw new Error(error);
       })
       .finally(
         this.setState({ isLoading: false }),
         window.scrollTo({
           top: document.documentElement.scrollHeight,
-          behavior: 'smooth',
-        }),
+          behavior: "smooth",
+        })
       );
   }
 
   loadMore = () => {
-    this.setState(prevState => ({ page: prevState.page + 1 }));
+    this.setState((prevState) => ({ page: prevState.page + 1 }));
   };
 
-  onOpenModal = e => {
+  onOpenModal = (e) => {
     this.setState({
       openModal: true,
       modalImageID: Number(e.currentTarget.id),
@@ -72,7 +72,7 @@ class App extends Component {
   };
 
   imageFind = () => {
-    const largeImg = this.state.images.find(image => {
+    const largeImg = this.state.images.find((image) => {
       return image.id === this.state.modalImageID;
     });
 
@@ -80,8 +80,6 @@ class App extends Component {
   };
 
   render() {
-    console.log(this.state.images);
-
     return (
       <>
         <Searchbar onSubmit={this.onSearch} />
