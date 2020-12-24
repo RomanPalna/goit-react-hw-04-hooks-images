@@ -28,17 +28,15 @@ export default function App() {
       .then(img => {
         setImages(prevImages => [...prevImages, ...img.hits]);
         setPage(page);
+        window.scrollTo({
+          top: document.documentElement.scrollHeight,
+          behavior: 'smooth',
+        });
       })
       .catch(error => {
         throw new Error(error);
       })
-      .finally(
-        window.scrollTo({
-          top: document.documentElement.scrollHeight,
-          behavior: 'smooth',
-        }),
-        setIsLoading(false),
-      );
+      .finally(setIsLoading(false));
   }, [page, query]);
 
   const onSearch = query => {
